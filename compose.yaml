@@ -9,6 +9,7 @@
 # https://github.com/docker/awesome-compose
 services:
   server:
+    container_name: server
     build:
       context: .
       target: final
@@ -33,13 +34,14 @@ services:
         condition: service_healthy
 
   db:
-    image: postgres
+    container_name: db
+    image: postgres:18
     restart: always
     user: postgres
     secrets:
       - db-password
     volumes:
-      - db-data:/var/lib/postgresql/data
+      - db-data:/var/lib/postgresql
     environment:
       - POSTGRES_DB=example
       - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
